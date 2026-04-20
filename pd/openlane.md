@@ -1,4 +1,4 @@
-Openlane invoke:
+## Openlane invoke:
 
 ```
 cd ~/Desktop/work/tools/openlane_working_dir/openlane
@@ -21,7 +21,7 @@ package require openlane 0.9
 ```
 
 
-Physical design:
+## Physical design:
 
 ```
 prep -design picorv32a
@@ -46,3 +46,8 @@ the overwriting config file at `~/Desktop/work/tools/openlane_working_dir/openla
 
 the def file is at `~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/29-10_00-31/results/floorplan/picorv32a.floorplan.def`
 
+layout:
+
+```
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
