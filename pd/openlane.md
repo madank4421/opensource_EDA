@@ -42,5 +42,7 @@ run_floorplan
 
 the config file at `~/Desktop/work/tools/openlane_working_dir/openlane/configuration/floorplan.tcl`
 
+the overwriting config file at `~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/sky130A_sky130_fd_sc_hd_config.tcl`
+
 the def file is at `~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/29-10_00-31/results/floorplan/picorv32a.floorplan.def`
 
