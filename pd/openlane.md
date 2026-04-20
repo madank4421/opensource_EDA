@@ -40,5 +40,7 @@ Floorplan:
 run_floorplan
 ```
 
+the config file at `~/Desktop/work/tools/openlane_working_dir/openlane/configuration/floorplan.tcl`
+
 the def file is at `~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/29-10_00-31/results/floorplan/picorv32a.floorplan.def`
 
