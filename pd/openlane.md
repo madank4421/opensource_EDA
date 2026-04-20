@@ -69,3 +69,79 @@ magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/
 cd ~/Desktop/work/tools/openlane_working_dir/openlane/
 sta pre_sta.conf
 ```
+
+## CTS 
+
+```tcl
+# If any variable conflict occurs, remove the CTS library environment variable
+unset ::env(LIB_CTS)
+
+# Once placement is done, execute clock tree synthesis
+run_cts
+```
+
+## Routing
+
+```
+run_routing
+```
+
+layout:
+
+```tcl
+# Navigate to the directory containing the routed DEF file
+cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/11-11_16-13/results/routing
+
+# Launch Magic and load the routed DEF and technology LEF
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
+```
+
+## Post-Routing Parasitic Extraction (SPEF Extraction (Standard Parasitic Exchange Format) )
+
+```tcl
+# Navigate to the directory containing the SPEF extractor
+cd ~/Desktop/work/tools/openlane_working_dir/openlane/scripts/spef_extractor
+
+# Execute the Python SPEF extraction script using merged LEF and routed DEF
+python3 main.py -l ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/11-11_16-13/tmp/merged.lef -d ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/11-11_16-13/results/routing/picorv32a.def
+```
+
+generated .spef file inside: `~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/11-11_16-13/results/routing/`
+
+
+## Post-Routing OpenSTA Timing Analysis Using SPEF
+
+```tcl
+# Launch OpenROAD shell for timing analysis
+openroad
+
+# Load the technology and cell LEFs (used for layout geometry and standard cells)
+read_lef /openLANE_flow/designs/picorv32a/runs/11-11_16-13/tmp/merged.lef
+
+# Load the final routed DEF (includes interconnections and routing information)
+read_def /openLANE_flow/designs/picorv32a/runs/11-11_16-13/results/routing/picorv32a.def
+
+# Save OpenROAD database for reference or reuse
+write_db pico_route.db
+
+# Optionally reload the saved database
+read_db pico_route.db
+
+# Load the Verilog netlist generated after synthesis
+read_verilog /openLANE_flow/designs/picorv32a/runs/11-11_16-13/results/synthesis/picorv32a.synthesis_preroute.v
+
+# Load the complete Liberty timing models
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link the design’s top-level module with its corresponding libraries
+link_design picorv32a
+
+# Load the custom SDC file containing clock and timing constraints
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Mark all defined clocks as propagated to include clock tree delays
+set_propagated_clock [all_clocks]
+
+# Load the extracted parasitic data for accurate delay calculations
+read_spef /openLANE_flow/designs/picorv32a/runs/11-11_16-13/results/routing/picorv32a.spef
+```
