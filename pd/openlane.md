@@ -144,4 +144,7 @@ set_propagated_clock [all_clocks]
 
 # Load the extracted parasitic data for accurate delay calculations
 read_spef /openLANE_flow/designs/picorv32a/runs/11-11_16-13/results/routing/picorv32a.spef
+
+# Generate a timing report showing both setup and hold paths
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
 ```
