@@ -63,6 +63,16 @@ layout:
 magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
 
+
+## DRC
+
+in tkcon window:
+```
+drc check
+drc why
+```
+
+
 ## STA
 
 ```
