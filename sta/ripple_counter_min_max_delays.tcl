@@ -13,3 +13,5 @@ read_sdc ~/madan/sta/ripple_counter_synthesis.sdc
 
 # Generate Timing Report
 report_checks
+
+report_checks -path_delay min_max
