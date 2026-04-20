@@ -35,7 +35,7 @@ run_synthesis
 synthesis file at `~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/28-10_10-47/results/synthesis/`
 
 
-Floorplan:
+## Floorplan:
 ```
 run_floorplan
 ```
@@ -50,4 +50,22 @@ layout:
 
 ```
 magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
+
+## placement
+
+```
+run_placement
+```
+
+layout:
+```
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+
+## STA
+
+```
+cd ~/Desktop/work/tools/openlane_working_dir/openlane/
+sta pre_sta.conf
 ```
