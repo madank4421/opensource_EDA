@@ -1,4 +1,25 @@
 module ripple_counter (input clk , input reset , output [1:0] q);
+
+reg [1:0] q_int;
+
+always @ (posedge clk or posedge reset)
+begin
+    if (reset)
+        q_int <= 2'b00;
+    else
+    begin
+        q_int[0] <= ~q_int[0];              // LSB toggles every clock
+        q_int[1] <= q_int[1] ^ q_int[0];    // MSB toggles when q0 = 1
+    end
+end
+
+assign q = q_int;
+
+endmodule
+
+
+
+/*module ripple_counter (input clk , input reset , output [1:0] q);
 reg [1:0]q_int;
 
 always @ (posedge clk, posedge reset)
@@ -23,3 +44,4 @@ end
 assign q = q_int;
 
 endmodule
+*/
