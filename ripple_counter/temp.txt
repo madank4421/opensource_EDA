@@ -1,0 +1,52 @@
+=============== floorplan =================================
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read ripple_counter.floorplan.def &
+
+
+=================== placement =============================
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read ripple_counter.floorplan.def &
+
+
+======================== routing ==============================
+magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read ripple_counter.def &
+
+
+python3 main.py -l ~/Desktop/work/tools/openlane_working_dir/openlane/designs/ripple_counter/runs/07-05_03-22/tmp/merged.lef -d ~/Desktop/work/tools/openlane_working_dir/openlane/designs/ripple_counter/runs/07-05_03-22/results/routing/ripple_counter.def
+
+
+
+
+========================= POST ROUTE STA ==========================================
+# Launch OpenROAD shell for timing analysis
+openroad
+
+# Load the technology and cell LEFs (used for layout geometry and standard cells)
+read_lef /openLANE_flow/designs/ripple_counter/runs/07-05_03-22/tmp/merged.lef
+
+# Load the final routed DEF (includes interconnections and routing information)
+read_def /openLANE_flow/designs/ripple_counter/runs/07-05_03-22/results/routing/ripple_counter.def
+
+# Save OpenROAD database for reference or reuse
+write_db ripple_route.db
+
+# Optionally reload the saved database
+read_db ripple_route.db
+
+# Load the Verilog netlist generated after synthesis
+read_verilog /openLANE_flow/designs/ripple_counter/runs/07-05_03-22/results/synthesis/ripple_counter.synthesis_preroute.v
+
+# Load the complete Liberty timing models
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link the design’s top-level module with its corresponding libraries
+link_design ripple_counter
+
+# Load the custom SDC file containing clock and timing constraints
+read_sdc /openLANE_flow/designs/ripple_counter/src/my_base.sdc
+
+# Mark all defined clocks as propagated to include clock tree delays
+set_propagated_clock [all_clocks]
+
+# Load the extracted parasitic data for accurate delay calculations
+read_spef /openLANE_flow/designs/ripple_counter/runs/07-05_03-22/results/routing/ripple_counter.spef
+
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4

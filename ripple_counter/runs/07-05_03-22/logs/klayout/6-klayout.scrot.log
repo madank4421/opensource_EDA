@@ -1,0 +1,6 @@
+Using Techfile: /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/klayout/sky130A.lyt
+Using layout file: /openLANE_flow/designs/ripple_counter/runs/07-05_03-22/results/floorplan/ripple_counter.floorplan.def
+[INFO] Reading tech file: /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/klayout/sky130A.lyt
+[INFO] Reading Layout file: /openLANE_flow/designs/ripple_counter/runs/07-05_03-22/results/floorplan/ripple_counter.floorplan.def
+[INFO] Writing out PNG screenshot '/openLANE_flow/designs/ripple_counter/runs/07-05_03-22/results/floorplan/ripple_counter.floorplan.def.png'
+Done
